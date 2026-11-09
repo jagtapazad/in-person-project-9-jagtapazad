@@ -1,41 +1,41 @@
 import { useState, useEffect } from 'react'
 
-// TODO: Implement the useFetch custom hook
-// This hook should:
-// 1. Accept a URL as a parameter
-// 2. Return an object with { data, loading, error }
-// 3. Handle fetch with proper cleanup using AbortController
-// 4. Set loading states appropriately
-
-export function useFetch(url) {
-  // TODO: Set up state for data, loading, and error
-
-  // TODO: Use useEffect to fetch data when URL changes
-  // Remember to:
-  // - Create an AbortController for cleanup
-  // - Handle errors properly
-  // - Set loading to false when done
-  // - Return cleanup function that aborts the fetch
-
-  // For now, return mock data so the app doesn't break
-  return {
-    data: null,
-    loading: false,
-    error: null
-  }
-}
-
-// Example implementation structure:
-/*
+// Fetches JSON from a URL and returns { data, loading, error }.
+// The fetch is aborted if the component unmounts or the URL changes mid-request.
 export function useFetch(url) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    // TODO: Implement fetch logic here
+    const abortController = new AbortController()
+
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const response = await fetch(url, { signal: abortController.signal })
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const result = await response.json()
+        setData(result)
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          setError(err.message)
+        }
+      } finally {
+        // StrictMode aborts the first run on purpose; it must not end loading
+        if (!abortController.signal.aborted) {
+          setLoading(false)
+        }
+      }
+    }
+
+    fetchData()
+
+    return () => abortController.abort()
   }, [url])
 
   return { data, loading, error }
 }
-*/

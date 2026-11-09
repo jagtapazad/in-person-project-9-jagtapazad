@@ -1,7 +1,8 @@
 import { useState } from 'react'
-// TODO: Import useNavigate for programmatic navigation after form submission
+import { useNavigate } from 'react-router-dom'
 
 function ContactPage() {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,8 +29,8 @@ function ContactPage() {
       setIsSubmitting(false)
       setFormData({ name: '', email: '', message: '' })
 
-      // TODO: Navigate to home page after successful submission
-      // setTimeout(() => navigate('/'), 2000)
+      // Back to Home two seconds after the thank-you line appears
+      setTimeout(() => navigate('/'), 2000)
     }, 1000)
   }
 
@@ -48,7 +49,7 @@ function ContactPage() {
               <span className="contact-icon">📧</span>
               <div>
                 <h3>Email</h3>
-                <a href="mailto:hello@example.com">hello@example.com</a>
+                <a href="mailto:azadjagtap@berkeley.edu">azadjagtap@berkeley.edu</a>
               </div>
             </div>
             <div className="contact-method">
@@ -69,7 +70,7 @@ function ContactPage() {
               <div>
                 <h3>GitHub</h3>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/jagtapazad"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
